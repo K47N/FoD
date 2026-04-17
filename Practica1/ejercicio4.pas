@@ -154,6 +154,11 @@ nom_ap: string[15];
 opcion: integer;
 cant_emp: integer;
 cod_emp: integer;
+nom_archtexto1: string[15];
+nom_archtexto2: string[15];
+text1: Text;
+text2: Text;
+emp:empleado;
 BEGIN
  writeln('ingrese nombre del archivo:  ');
  readln(nomb_fisico);
@@ -164,6 +169,9 @@ BEGIN
  writeln('opcion 3: lista completa de empleados. ');
  writeln('opcion 4: informacion de empleados cercanos a jubilarse. ');
  writeln('opcion 5: agregar uno o mas empleados. ');
+ writeln('opcion 6: modificar la edad de un empleado. ');
+ writeln('opcion 7: exportar a un archivo de texto todos los empleados. ');
+ writeln('opcion 8: exportar a un archivo de texto a los empleados con DNI 0. ');
  readln(opcion);
  case opcion of 
   1: begin //inciso a
@@ -201,8 +209,35 @@ BEGIN
     writeln('ingrese el codigo del empleado que busca modificar la edad: ');
     readln(cod_emp);
     modificarEdad(arch_emp,cod_emp);
+   end;//punto 4 c
+  7:begin
+    writeln('ingresaste la opcion 7');
+    Writeln('ingrese un nombre para el archivo de texto: ');
+    readln(nom_archtexto1);
+    assign(text1, nom_archtexto1);
+    reset(arch_emp);
+    rewrite(text1);
+    while not eof(arch_emp) do begin
+     read(arch_emp,emp);
+     write(text1, emp.nomb, ' ',emp.apellido, ' ',emp.edad, ' ',emp.DNI, ' ',emp.cod);
+    end;
+    close(arch_emp);
+    close(text1);
    end;
-
+  8:begin
+    writeln('ingresaste la opcion 8');
+    writeln('ingrese un nombre para el archivo de texto: ');
+    readln(nom_archtexto2);
+    assign(text2,nom_archtexto2);
+    reset(arch_emp);
+    rewrite(text2);
+    while not eof(arch_emp) do begin
+      read(arch_emp, emp);
+      if(emp.DNI = 0) then
+         write(text2, emp.nomb, ' ',emp.apellido, ' ',emp.edad, ' ',emp.DNI, ' ',emp.cod);
+    end;
+    close(arch_emp);
+    close(text2);
+  end;
 end;
-
 END.
