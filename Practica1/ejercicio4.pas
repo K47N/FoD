@@ -1,4 +1,4 @@
-program ejercicio3;
+program ejercicio4 ;
 const
  FIN = 'fin';
   type
